@@ -1,0 +1,58 @@
+The code you provided is a well-structured example of building a spam email classifier using Python libraries. Let's break down the steps:
+
+Import Libraries:
+
+numpy: Used for numerical computations.
+pandas: Used for data manipulation and analysis (dataframes).
+matplotlib.pyplot: Used for data visualization (plots).
+seaborn: Used for statistical data visualization (advanced plots).
+sklearn.model_selection: Used for splitting data into training and testing sets.
+sklearn.feature_extraction.text: Used for text pre-processing and feature extraction.
+sklearn.naive_bayes: Used for the Multinomial Naive Bayes classification algorithm.
+sklearn.pipeline: Used to create a pipeline for combining data processing and model fitting.
+pickle: Used for saving the trained model.
+Load Data:
+
+data = pd.read_csv("emails.csv"): Reads the email data from a CSV file named "emails.csv" into a pandas dataframe.
+Data Exploration:
+
+data.head(): Displays the first few rows of the data to get a sense of its structure.
+data.shape: Shows the dimensions of the data (number of rows and columns).
+data['text'][0]: Accesses the first element (email text) in the "text" column.
+data['spam'].value_counts(): Counts the occurrences of "spam" and "not spam" labels.
+sns.countplot(data['spam']): Creates a bar chart to visualize the distribution of spam and non-spam emails.
+Data Cleaning:
+
+data.duplicated().sum(): Checks for duplicate rows in the data.
+data.drop_duplicates(inplace=True): Removes duplicate rows from the data (inplace modification).
+data.duplicated().sum(): Verifies that duplicates are gone.
+data.isnull().sum(): Checks for missing values in each column.
+Data Preprocessing:
+
+Splitting Data:
+from sklearn.model_selection import train_test_split: Imports the train-test split function.
+X_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.2 , random_state= 0): Splits the data into training and testing sets.
+X: Contains the email text data (features).
+y: Contains the spam labels (target variable).
+test_size=0.2: Specifies that 20% of the data will be used for testing.
+random_state=0: Ensures reproducibility by setting a random seed for splitting.
+Feature Extraction:
+from sklearn.feature_extraction.text import CountVectorizer: Imports the CountVectorizer class.
+cv = CountVectorizer(): Creates a CountVectorizer object. This converts text data into numerical features by counting the occurrences of words in each email.
+X_train and X_test are transformed using the CountVectorizer (not shown explicitly).
+Model Training:
+
+from sklearn.naive_bayes import MultinomialNB: Imports the Multinomial Naive Bayes classifier.
+from sklearn.pipeline import make_pipeline: Imports the pipeline creation function.
+nb = MultinomialNB(): Creates a Multinomial Naive Bayes classifier object.
+pipe = make_pipeline(cv, nb): Creates a pipeline that combines the CountVectorizer (cv) for feature extraction and the Multinomial Naive Bayes (nb) classifier.
+pipe.fit(X_train, y_train): Trains the model using the training data (X_train and y_train).
+Model Evaluation:
+
+from sklearn.metrics import accuracy_score: Imports the accuracy scoring function.
+y_pred = pipe.predict(X_test): Predicts labels for the test data using the trained model.
+accuracy_score(y_pred, y_test): Calculates the accuracy of the model on the test data (percentage of correct predictions).
+Model Prediction on New Email:
+
+email = ['Hey i am Elon Musk. Get a brand new car from Tesla']: Creates a new email example.
+pipe.predict(email): Predicts the spam label for the new email using the trained
